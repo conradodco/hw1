@@ -106,12 +106,88 @@
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
 
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS castings;
+DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS actors;
+
+
 -- Create new tables, according to your domain model
 -- TODO!
+
+CREATE TABLE movies (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+movie TEXT,
+year INTEGER,
+mpaa TEXT
+);
+
+CREATE TABLE castings (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+character TEXT,
+movie_id TEXT
+);
+
+CREATE TABLE studios (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+studio TEXT,
+movie_id TEXT
+);
+
+CREATE TABLE actors (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+full_name TEXT,
+casting_id TEXT
+);
+
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+
+INSERT INTO movies (movie, year, mpaa)
+Values  ("Batman Begins","2005","PG-13"),
+        ("The Dark Night", "2008", "PG-13"),
+        ("The Dark Night Rises", "2012", "PG-13");
+
+INSERT INTO castings (character, movie_id)
+Values  ("Bruce Wayne","1"),
+        ("Alfred", "1"),
+        ("Ra's Al Ghul", "1"),
+        ("Rachel Dawes", "1"),
+        ("Commissioner Gordon", "1"),
+        ("Bruce Wayne","2"),
+        ("Joker","2"),
+        ("Harvey Dent","2"),
+        ("Alfred","2"),
+        ("Rachel Dawes","2"),
+        ("Bruce Wayne","3"),
+        ("Commissioner Gordon","3"),
+        ("Bane","3"),
+        ("John Blake","3"),
+        ("Selina Kyle","3");
+
+INSERT INTO studios (studio, movie_id)
+Values  ("Warner Bros.","1"),
+        ("Warner Bros.","2"),
+        ("Warner Bros.","3");
+
+INSERT INTO actors (full_name, casting_id)
+Values  ("Christian Bale","1"),
+        ("Michael Caine", "2"),
+        ("Liam Neesonl", "3"),
+        ("Katie Holmes", "4"),
+        ("Gary Oldman", "5"),
+        ("Christian Bale","6"),
+        ("Heath Ledger","7"),
+        ("Aaron Eckhart","8"),
+        ("Michael Caine","9"),
+        ("Maggie Gyllenhaal","10"),
+        ("Christian Bale","11"),
+        ("Gary Oldman","12"),
+        ("Tom Hardy","13"),
+        ("Joseph Gordon-Levitt","14"),
+        ("Anne Hathaway","15");
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -120,6 +196,10 @@
 
 -- The SQL statement for the movies output
 -- TODO!
+
+SELECT movie, year, mpaa, studio
+FROM movies
+INNER JOIN studios on movies.id = studios.movie_id;
 
 -- Prints a header for the cast output
 .print ""
@@ -130,3 +210,8 @@
 
 -- The SQL statement for the cast output
 -- TODO!
+
+Select movie, full_name, character
+from actors
+inner join castings on actors.casting_id = castings.id
+inner join movies on castings.movie_id = movies.id;
